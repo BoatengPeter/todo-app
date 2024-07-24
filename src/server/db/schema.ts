@@ -1,28 +1,24 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
 import { sql } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
   serial,
   timestamp,
-  varchar,
+  text,
+  boolean,
+  integer,
 } from "drizzle-orm/pg-core";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
+
 export const createTable = pgTableCreator((name) => `todo-app_${name}`);
 
-export const posts = createTable(
-  "post",
+export const todos = createTable(
+  "todos",
   {
     id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
+    title: text("title").notNull(),
+    status: boolean("status").default(false),
+    description: text("description"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -30,7 +26,27 @@ export const posts = createTable(
       () => new Date()
     ),
   },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
+  (todos) => ({
+    todoIndex: index("todo_idx").on(todos.title),
+  })
+);
+
+export const subTasks = createTable(
+  "sub_tasks",
+  {
+    id: serial("id").primaryKey(),
+    todoId:integer("todo_id").references(() => todos.id).notNull(),
+    title: text("title").notNull(),
+    status: boolean("status").default(false),
+    description: text("description"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date()
+    ),
+  },
+  (subTasks) => ({
+    subTaskIndex: index("sub_task_idx").on(subTasks.title),
   })
 );
