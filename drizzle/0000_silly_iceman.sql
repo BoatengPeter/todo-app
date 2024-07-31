@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS "todo-app_sub_tasks" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"todo_id" integer NOT NULL,
+	"todo_id" integer,
 	"title" text NOT NULL,
-	"status" boolean DEFAULT false,
+	"status" boolean DEFAULT false NOT NULL,
 	"description" text,
 	"created_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	"updated_at" timestamp with time zone
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS "todo-app_todos" (
 	"status" boolean DEFAULT false,
 	"description" text,
 	"created_at" timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	"updated_at" timestamp with time zone
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

@@ -1,6 +1,6 @@
 {
-  "id": "2c6b8c58-b260-4def-bc0e-11116f5e9229",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "4cdefc9e-053b-4e85-ac8c-501d5a994c02",
+  "prevId": "2c6b8c58-b260-4def-bc0e-11116f5e9229",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
@@ -100,7 +100,7 @@
           "name": "status",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "description": {
@@ -120,7 +120,7 @@
           "name": "updated_at",
           "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {
