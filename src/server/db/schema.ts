@@ -17,7 +17,7 @@ export const todos = createTable(
   {
     id: serial("id").primaryKey(),
     title: text("title").notNull(),
-    status: boolean("status").default(false),
+    status: boolean("status").default(false).notNull(),
     description: text("description"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -35,10 +35,9 @@ export const subTasks = createTable(
   "sub_tasks",
   {
     id: serial("id").primaryKey(),
-    todoId:integer("todo_id").references(() => todos.id).notNull(),
+    todoId:integer("todo_id").references(() => todos.id,{onDelete:'cascade'}),
     title: text("title").notNull(),
-    status: boolean("status").default(false),
-    description: text("description"),
+    status: boolean("status").default(false).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
