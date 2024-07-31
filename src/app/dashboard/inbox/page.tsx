@@ -1,7 +1,9 @@
 import PageHeader from "../_components/PageHeader"
-import { TodoItems } from "../../../components/common/TodoCard"
+import { TodoCard } from "../../../components/common/TodoCard"
 import TodoForm from "../../../components/common/TodoForm"
-const page = () => {
+import { getAllTodos } from "~/server/db/queries"
+export default async function page() {
+    const todos = await getAllTodos()
     return (
         <main className="flex-1 h-screen  overflow-y-scroll ">
             <PageHeader />
@@ -10,9 +12,14 @@ const page = () => {
             </div>
             <section className="w-[80%] h-full flex flex-col mx-auto  ">
                 <TodoForm />
-                <TodoItems />
-                <TodoItems />
-                <TodoItems />
+                {todos?.map((todo) =>
+                    <div key={todo.id}>
+                        {/* <Link href={`/dashboard/inbox/${todo.id}`}> */}
+                        <TodoCard data={todo} />
+                        {/* </Link> */}
+                    </div>
+                )}
+
             </section>
 
         </main>
@@ -20,4 +27,3 @@ const page = () => {
     )
 }
 
-export default page

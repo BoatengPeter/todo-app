@@ -1,6 +1,7 @@
 import PageHeader from "../_components/PageHeader"
-import { TodoItems } from "../../../components/common/TodoCard"
+import { TodoCard } from "../../../components/common/TodoCard"
 import TodoForm from "../../../components/common/TodoForm"
+import { TestTodoCard } from "~/components/common/TestTodoCard"
 const page = () => {
   return (
     <>
@@ -13,39 +14,9 @@ const page = () => {
         </div>
         <section className="w-[80%] h-full flex flex-col mx-auto  ">
           <TodoForm />
+          <TestTodoCard />
 
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
-          <TodoItems />
+          {/* <TodoCard  /> */}
 
         </section>
 
