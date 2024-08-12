@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children, inbox
-}: { children: React.ReactNode, inbox: React.ReactNode }) {
+  children,
+}: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
 
@@ -24,7 +24,6 @@ export default function RootLayout({
         <body>
           <Toaster />
           {children}
-          {/* {inbox} */}
         </body>
       </html>
     </ClerkProvider>
