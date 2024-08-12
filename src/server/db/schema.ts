@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
@@ -7,6 +7,7 @@ import {
   text,
   boolean,
   integer,
+  varchar,
 } from "drizzle-orm/pg-core";
 
 
@@ -16,6 +17,7 @@ export const todos = createTable(
   "todos",
   {
     id: serial("id").primaryKey(),
+    userId:varchar("userId",{length:256}).notNull(),
     title: text("title").notNull(),
     status: boolean("status").default(false).notNull(),
     description: text("description"),
@@ -31,12 +33,16 @@ export const todos = createTable(
   })
 );
 
+
+
+
 export const subTasks = createTable(
   "sub_tasks",
   {
     id: serial("id").primaryKey(),
     todoId:integer("todo_id").references(() => todos.id,{onDelete:'cascade'}),
     title: text("title").notNull(),
+    description: text("description"),
     status: boolean("status").default(false).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -49,3 +55,30 @@ export const subTasks = createTable(
     subTaskIndex: index("sub_task_idx").on(subTasks.title),
   })
 );
+
+
+
+export const todoRelations = relations(todos, ({ many }) => ({
+  subTasks: many(subTasks),
+}));
+
+export const subTaskRelations = relations(subTasks, ({ one }) => ({
+  todo: one(todos, {
+    fields: [subTasks.todoId],
+    references: [todos.id],
+  }),
+}));
+
+// const todoSchema = z.object({
+//   title: z.string({message:"Title is rquired"}),
+//   status: z.boolean().default(false),
+//   description: z.string().nullable().optional(),
+// })
+
+// const  createTodoSchema
+
+// const updateTodoSchema = todoSchema.extend({
+//   id: z.number(),
+// })
+
+// export type updateTodoData = z.infer<typeof updateTodoSchema>

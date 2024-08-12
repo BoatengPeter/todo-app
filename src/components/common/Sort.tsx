@@ -18,18 +18,9 @@ interface Item {
 }
 
 
-const SortItems = ({ data }: { data: any }) => {
-    // const onSortByName = data.sort((a,b)=>{
-    //     const name1:any = a.name.toLowerCase()
-    //     const name2:any = b.name.toLowerCase()
-    //     if (name1 < name2) {
-    //         return -1
-    //     }
-    //     if(name1 > name2){
-    //         return 1
-    //     }
-    //     return 0
-    // });
+const SortItems = ({ data }) => {
+    const [dataSort, setDataSort] = useState<Item[]>([data])
+
     function sortByProperty<T>(
         items: T[],
         property: keyof T,
@@ -64,8 +55,8 @@ const SortItems = ({ data }: { data: any }) => {
                 <DropdownMenuContent >
                     <DropdownMenuGroup>
                         <DropdownMenuLabel>Sort by</DropdownMenuLabel>
-                        <DropdownMenuItem><button onClick={ } >Name</button></DropdownMenuItem>
-                        <DropdownMenuItem><button onClick={ } >Date</button></DropdownMenuItem>
+                        <DropdownMenuItem><button onClick={() => sortByProperty(dataSort, 'name')}  >Name</button></DropdownMenuItem>
+                        <DropdownMenuItem><button   >Date</button></DropdownMenuItem>
                     </DropdownMenuGroup>
 
                 </DropdownMenuContent>

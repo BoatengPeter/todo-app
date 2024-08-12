@@ -6,12 +6,10 @@ export const metadata: Metadata = {
 
 import React from "react"
 import PageHeader from "../_components/PageHeader"
-import { TodoCard } from "../../../components/common/TodoCard"
+import { TodoList } from "../../../components/common/TodoList"
 import TodoForm from "../../../components/common/TodoForm"
 import { fetchTodaysTodos } from "../../../server/db/queries"
 // import UpdateTodo from "../../../components/common/UpdateTodo"
-import { DeleteTodo } from "../../../components/common/buttons"
-import { UpdateTodo } from '~/server/db/actions';
 
 export default async function page() {
     const todos = await fetchTodaysTodos()
@@ -22,9 +20,9 @@ export default async function page() {
 
     const date = todaysdate.getDate();
     const month = todaysdate.getMonth() + 1;
-    const day = todaysdate.getDay();
+    const day = todaysdate.getDay().toLocaleString();
     return (
-        <main className="flex-1 h-screen  overflow-y-scroll ">
+        <main className="w-full h-screen  overflow-y-scroll ">
             <PageHeader />
             <div className="w-[80%] mx-auto my-3">
                 <h1 className="text-3xl text-slate-900 font-bold">Today</h1>
@@ -35,15 +33,7 @@ export default async function page() {
             </div>
             <section className="w-[80%] h-full flex flex-col mx-auto  ">
                 <TodoForm />
-                {todos?.map((todo) =>
-                    <div key={todo.id}>
-
-                        <TodoCard data={todo} >
-                            {/* <UpdateTodo id={Number(todo.id)} /> */}
-                            {/* <DeleteTodo id={String(todo.id)} /> */}
-                        </TodoCard>
-                    </div>
-                )}
+                <TodoList initialTodos={todos} />
 
             </section>
 

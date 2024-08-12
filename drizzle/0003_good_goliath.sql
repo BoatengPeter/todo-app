@@ -1,0 +1,1 @@
+ALTER TABLE "todo-app_sub_tasks" ADD COLUMN "description" text;

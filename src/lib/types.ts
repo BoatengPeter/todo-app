@@ -1,9 +1,9 @@
 export type TodoCardProps  = {
     id?:number;
-    status: boolean | null;
+    status: boolean ;
     title: string;
     description: string | null;
-    // createdAt:  string; 
+    createdAt:  Date ;
     subTasks?: never[] | null;
     // children?: React.ReactNode;
 } 

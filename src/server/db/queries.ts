@@ -1,10 +1,13 @@
 import { db } from "~/server/db"
-import { todos,subTasks } from "./schema"
-import { eq, sql } from "drizzle-orm"
+import {auth} from "@clerk/nextjs/server"
+import { eq, and, gte, lt } from 'drizzle-orm';
+import { todos } from "./schema"
 export async function getAllTodos() {
   try {
+    const user =auth();
+    if(!user.userId) throw new  Error("unathorized");
     const todos = await db.query.todos.findMany(
-      //  {columns:{ updatedAt:false,createdAt:false} ,with:{subTasks:false}}
+       {with:{subTasks:true}}
       )
     return todos
   } catch (error) {
@@ -15,13 +18,19 @@ export async function getAllTodos() {
 
 export async function fetchTodaysTodos(){
     try {
-        // const date = new Date()
-        // const todaysDate = date.getDate();
-        // day:sql`EXTRACT(DAY FROM created_at)`
-        const todaysTodos = await db.query.todos.findMany(
-        //   {
-        //   where:(model,{eq})=>eq(model.createdAt.getSQL("DAY"),todaysDate)
-        // }
+        const user =auth();
+        if(!user.userId) throw new Error ("unauthorized");
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const todaysTodos = await db.query.todos.findMany({
+          where: and(
+            gte(todos.createdAt, today),
+            lt(todos.createdAt, tomorrow)
+          )
+        }
       ) 
         return todaysTodos
     } catch (error) {
@@ -32,10 +41,14 @@ export async function fetchTodaysTodos(){
 }
 export async function fetchTodoById(id: number) {
   try {
+    const user = auth()
+    if(!user.userId) throw new Error ("unauthorized");
     // const idasNum = Number(id)
     const todo = await db.query.todos.findFirst({
-      where:(model,{eq})=>eq(model.id,id),columns:{ updatedAt:false,createdAt:false} ,with:{subTasks:false}
+      where:(model,{eq})=>eq(model.id,id),columns:{ updatedAt:false,createdAt:false} ,with:{subTasks:true}
     })
+    if(!todo) throw new Error("Todo not found")
+      if(todo.userId !== user.userId) throw new Error("Unauthorized")
     return todo
   } catch (error) {
     console.log("Database error", error)
