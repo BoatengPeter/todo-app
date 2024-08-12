@@ -1,14 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getAuth } from "@clerk/nextjs/server";
+import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
+export async function GET() {
+  const { userId, getToken } = auth();
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { userId } = getAuth(req);
-
-  if (!userId) {
-    return res.status(401).json({ error: "Unauthorized" });
+  if(!userId){
+    return new Response("Unauthorized", { status: 401 });
   }
 
-  // retrieve data from your database
+  const token = await getToken({ template: "supabase" });
 
-  res.status(200).json({});
+  // Fetch data from Supabase and return it.
+  const data = { supabaseData: 'Hello World' };
+
+  return NextResponse.json({ data });
 }
