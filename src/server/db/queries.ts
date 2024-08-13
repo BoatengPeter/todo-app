@@ -6,9 +6,14 @@ export async function getAllTodos() {
   try {
     const user =auth();
     if(!user.userId) throw new  Error("unathorized");
-    const todos = await db.query.todos.findMany(
-       {with:{subTasks:true}}
-      )
+    const todos = await db.query.todos.findMany({
+      with:{
+        subTasks:true
+      },columns:{
+        userId:false
+      }
+    }
+  )
     return todos
   } catch (error) {
     console.log("Database error", error)
@@ -29,7 +34,9 @@ export async function fetchTodaysTodos(){
           where: and(
             gte(todos.createdAt, today),
             lt(todos.createdAt, tomorrow)
-          )
+          ),columns:{
+            userId:false
+          }
         }
       ) 
         return todaysTodos
@@ -45,7 +52,13 @@ export async function fetchTodoById(id: number) {
     if(!user.userId) throw new Error ("unauthorized");
     // const idasNum = Number(id)
     const todo = await db.query.todos.findFirst({
-      where:(model,{eq})=>eq(model.id,id),columns:{ updatedAt:false,createdAt:false} ,with:{subTasks:true}
+      where:(model,{eq})=>eq(model.id,id) ,with:{
+        subTasks:{
+          columns:{
+            todoId:false
+          }
+        }
+      }
     })
     if(!todo) throw new Error("Todo not found")
       if(todo.userId !== user.userId) throw new Error("Unauthorized")

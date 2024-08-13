@@ -9,15 +9,13 @@ import { type TodoCardProps } from "~/lib/types"
 import { formatDateToLocal } from "~/lib/utils"
 import { DeleteTodo, UpdateTodo } from "./buttons"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 
 
-export function TodoCard({ todos, onUpdateStatus, onDeleteTodo }: { todos: TodoCardProps, onUpdateStatus: (id: string, status: boolean) => Promise<void>, onDeleteTodo: (id: string) => Promise<void> }) {
+export function TodoCard({ todos, onUpdateStatus, onDeleteTodo }: { todos: TodoCardProps, onUpdateStatus?: (id: string, status: boolean) => Promise<void>, onDeleteTodo?: (id: string) => Promise<void> }) {
 
 
     const [update, setUpdateTodo] = useState(false);
     const [checkDone, setCheckDone] = useState(false);
-    const pathname = usePathname()
 
     return (
         <>

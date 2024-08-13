@@ -17,7 +17,7 @@ export default async function CardModal({ params: { id: todoId } }: { params: { 
 
                     <TodoCard todos={data} />
                     <AddSubTask />
-                    {/* <SubTaskCard subTasks={todoId} /> */}
+                    <SubTaskCard subTasks={data.subTasks} />
                 </div>
             </Modal>
         </>
