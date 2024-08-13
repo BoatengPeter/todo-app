@@ -6,9 +6,8 @@ import { notFound } from "next/navigation"
 import AddSubTask from "~/components/common/AddSubTask"
 export default async function CardModal({ params: { id: todoId } }: { params: { id: number } }) {
     const data = await fetchTodoById(todoId)
-    if (!data) {
-        notFound()
-    }
+    if (!data) notFound()
+
     return (
         <>
             <Modal>

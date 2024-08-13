@@ -15,7 +15,7 @@ export default async function page() {
                 <Sort data={todos} />
             </div>
             <section className="w-[80%] h-full flex flex-col mx-auto  ">
-                <TodoList initialTodos={todos} />
+                <TodoList initialTodos={todos ?? []} />
                 <TodoForm />
 
             </section>
