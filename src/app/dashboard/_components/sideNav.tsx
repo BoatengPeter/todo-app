@@ -3,7 +3,7 @@ import Links from "./links"
 import { useState } from "react"
 import { SignedIn, UserButton } from "@clerk/nextjs"
 import { Bell, SearchIcon, CircleArrowLeft, CircleArrowRight, PlusIcon } from "lucide-react"
-import SearchCard from '../../../components/common/SearchCard'
+// import SearchCard from '../../../components/common/SearchCard'
 import AddTodoBtn from '../../../components/common/AddTodoBtn'
 import { useUser } from "@clerk/nextjs"
 import { cn } from "../../../lib/utils"
