@@ -1,7 +1,8 @@
 "use client"
 import React, { useState } from "react"
-
 import { ArrowUpDown } from "lucide-react"
+import { type TodoCardProps } from "../../lib/types"
+// import { useTodoContext } from "../Providers/InitialTodosProvider"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,37 +12,40 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 
-interface Item {
-    id: number
-    name: string
-    date: string
-}
 
 
-const SortItems = ({ data }) => {
-    const [dataSort, setDataSort] = useState<Item[]>([data])
 
-    function sortByProperty<T>(
-        items: T[],
-        property: keyof T,
-        options: Intl.CollatorOptions = { sensitivity: 'base' }
-    ): T[] {
-        return items.sort((a: T, b: T) => {
-            if (typeof a[property] === 'string' && typeof b[property] === 'string') {
-                return (a[property] as string).localeCompare(b[property] as string, undefined, options);
+const SortItems = ({ data }: { data: TodoCardProps[] }) => {
+    // const { todos, setTodos } = useTodoContext()
+    const [todos, setTodos] = useState(data);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+    const sortByTitle = () => {
+        const sorted = [...todos].sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.title.localeCompare(b.title);
+            } else {
+                return b.title.localeCompare(a.title);
             }
-            else if (typeof a[property] === 'number' && typeof b[property] === 'number') {
-                return a[property] - b[property];
-            }
-            return 0;
         });
-    }
+        setTodos(sorted);
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        console.log('Sorted by title', sortOrder);
+    };
 
-    function sortItemsByName(items: Item[]): Item[] {
-        return items.sort((a: Item, b: Item) =>
-            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
-        );
-    }
+    const sortByDate = () => {
+        const sorted = [...todos].sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.createdAt.getTime() - b.createdAt.getTime();
+            } else {
+                return b.createdAt.getTime() - a.createdAt.getTime();
+            }
+        });
+        setTodos(sorted);
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        //come a delete this
+        console.log('Sorted by date', sortOrder);
+    };
 
 
     return (
@@ -55,8 +59,8 @@ const SortItems = ({ data }) => {
                 <DropdownMenuContent >
                     <DropdownMenuGroup>
                         <DropdownMenuLabel>Sort by</DropdownMenuLabel>
-                        <DropdownMenuItem><button onClick={() => sortByProperty(dataSort, 'name')}  >Name</button></DropdownMenuItem>
-                        <DropdownMenuItem><button   >Date</button></DropdownMenuItem>
+                        <DropdownMenuItem><button onClick={sortByTitle}>title</button></DropdownMenuItem>
+                        <DropdownMenuItem><button onClick={sortByDate}>Date</button></DropdownMenuItem>
                     </DropdownMenuGroup>
 
                 </DropdownMenuContent>

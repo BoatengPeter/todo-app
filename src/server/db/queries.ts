@@ -1,6 +1,6 @@
 import { db } from "~/server/db"
 import {auth} from "@clerk/nextjs/server"
-import { eq, and, gte, lt } from 'drizzle-orm';
+import {  and, gte, lt, like } from 'drizzle-orm';
 import { todos } from "./schema"
 export async function getAllTodos() {
   try {
@@ -17,7 +17,7 @@ export async function getAllTodos() {
     return todos
   } catch (error) {
     console.log("Database error", error)
-    // throw new Error("Failed to fetch todos")
+    throw new Error("Failed to fetch todos")
   }
 }
 
@@ -69,16 +69,22 @@ export async function fetchTodoById(id: number) {
   }
 }
 
-// export async function getSubTasksById(id: string) {
-//   try {
-//     const subTasks = await db.query.subTasks.findMany({
-//       where: { todoId: id },
-//       // columns:{ updatedAt:false,createdAt:false} ,with:{subTasks:false}
-//     })
-//     return subTasks
-//   } catch (error) {
-//     console.log("Database error", error)
-//     throw new Error("Failed to fetch subTasks")
-//   }
-// }
+export async function searchTodos(query: string) {
+  if(!query) return []
+  try {
+    const user = auth()
+    if(!user.userId) throw new Error ("unauthorized");
+    const results = await db.query.todos.findMany({
+      where: like(todos.title, `%${query}%`),
+      with:{
+        subTasks:true
+      }
+    })    
+    return results
+}catch (error) {
+    console.log("Database error", error)
+    throw new Error("Failed to fetch searched todos")
+  }
 
+
+}

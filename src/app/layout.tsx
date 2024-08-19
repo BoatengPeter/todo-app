@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s Todo | dashboard",
+    template: " dashboard | %s Todos ",
     default: "Todo App",
   },
   description: "Todo App",

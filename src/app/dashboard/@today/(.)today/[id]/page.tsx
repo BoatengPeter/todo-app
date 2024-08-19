@@ -1,5 +1,5 @@
 import { Modal } from "../../../../../components/common/Modal"
-import { TodoCard } from "~/components/common/TodoCard"
+import { ModalTodoCard } from "~/components/common/TodoCard"
 import { SubTaskCard } from "~/components/common/SubTaskCard"
 import { notFound } from "next/navigation"
 import { fetchTodoById } from "~/server/db/queries"
@@ -9,10 +9,16 @@ export default async function CardModal({ params: { id: todoId } }: { params: { 
     return (
         <>
             <Modal>
-                <div className="flex flex-col gap-4">
-                    <h1 className="text-xl font-bold">Todo</h1>
-                    <TodoCard todos={data} />
-                    <SubTaskCard subTasks={data.subTasks} />
+                <div className="w-full px-4 flex flex-col gap-4 ">
+                    <div className=" sticky top-0 bg-white z-20 shadow-sm">
+
+                        <h1 className="text-xl font-bold">Task</h1>
+                        <div className="overflow-y-auto oveflow-x-hidden">
+                        </div>
+
+                        <ModalTodoCard todos={data} />
+                        <SubTaskCard subTasks={data.subTasks} />
+                    </div>
                 </div>
             </Modal>
         </>

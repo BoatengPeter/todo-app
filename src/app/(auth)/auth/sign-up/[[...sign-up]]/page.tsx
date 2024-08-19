@@ -10,7 +10,6 @@ export default function HomePage() {
 
                 <div className="flex flex-col  justify-between">
 
-                    {/* <h1 className="text-3xl font-semibold uppercase text-slate-700">Stay on top of your tasks </h1> */}
                     <SignUp >
                     </SignUp>
                 </div>

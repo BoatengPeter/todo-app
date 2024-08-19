@@ -16,22 +16,12 @@ export function Modal({ children }: { children: React.ReactNode }) {
     function onDismissDialog() {
         router.back()
     }
-    // return createPortal(
-    //     <div className=" aboslute top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-screen items-center justify-center  backdrop:bg-black/50 backdrop:backdrop-blur-sm">
-    //         <dialog ref={dialogRef} className=" w-[80%] h-auto max-w-[500px] border-none rounded-md bg-white relative flex items-center justify-center p-4 max-h-[500px] " onClose={onDismissDialog}>
-    //             {children}
-    //             <button onClick={onDismissDialog}><X size={15} className="top-2 right-2 w-12 bg-transparent border-none items-center display flex cursor-pointer h-12" /></button>
-    //         </dialog>
-    //     </div>,
-    //     document.getElementById("modal-root")!
-
     return createPortal(
         <div className="modal-backdrop" >
             <dialog ref={dialogRef} className="modal  " onClose={onDismissDialog}>
                 {children}
-                <button onClick={onDismissDialog} className="close-button" />
+                <button onClick={onDismissDialog} className="close-button" ><X size={12} /></button>
             </dialog>
         </div>,
         document.body)
-    // document.getElementById("modal-root")!)
 }

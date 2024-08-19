@@ -1,37 +1,68 @@
 "use client"
 import { Input } from "../ui/input"
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useTodoContext } from "../Providers/InitialTodosProvider"
 import { Search as SearchIcon, X } from 'lucide-react'
-import { useDebouncedCallback } from "use-debounce"
-import { useSearchParams, useRouter, usePathname } from "next/navigation"
-const Search = ({ placeholder }: { placeholder: string }) => {
+// import { useDebouncedCallback } from "use-debounce"
+import useDebounce from "../../lib/Hooks/useDebounce"
+import { useSearchParams, usePathname } from "next/navigation"
+import { type TodoCardProps } from "~/lib/types"
+// import { searchTodos } from "~/server/db/queries"
+import { SearchSkeleton } from "./skeletons"
+import { TodoCard } from "./TodoCard"
+
+const Search = ({ data }: { data: TodoCardProps[] }) => {
     const searchParams = useSearchParams()
+    const [search, searchTodos] = useState(data)
     const pathname = usePathname()
-    const { replace } = useRouter()
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState<TodoCardProps[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    // const { todos, setTodos } = useTodoContext();
 
-    const handleSearch = useDebouncedCallback((value: string) => {
-        console.log(`searching for ${value}`);
-        const params = new URLSearchParams(searchParams)
-        if (value) {
-            params.set("query", value)
-            // params.set("query", "1")
+    const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+    useEffect(() => {
+        if (debouncedSearchTerm) {
+            setIsLoading(true);
+            searchTodos(debouncedSearchTerm)
+                .then((results) => {
+                    setSearchResults(results);
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error searching todos:', error);
+                    setIsLoading(false);
+                });
         } else {
-            params.delete("query")
+            setSearchResults([]);
         }
-        replace(`${pathname}?${params.toString()}`)
-    }, 300)
+    }, [debouncedSearchTerm]);
+
+
     return (
         <div className=''>
             <div className='flex py-2 items-center gap-2'>
                 <SearchIcon size={20} />
                 <label htmlFor="search" className='sr-only'>Search</label>
-                <Input type="text" className='mr-auto focus-visible:ring-0 border-none focus-visible:ring-offset-0 ' placeholder={placeholder} onChange={(e) => handleSearch(e.target.value)}
+                <Input type="text" className='mr-auto focus-visible:ring-0 border-none focus-visible:ring-offset-0 ' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
                     defaultValue={searchParams.get('query')?.toString()} />
                 {/* <X size={20} /> */}
+            </div>
+            <div className="py-2">
+
+                {isLoading && <SearchSkeleton />}
+                {!isLoading && searchResults.length > 0 && (
+                    <>
+                        {data.map((todo) => (
+                            <TodoCard key={todo.id} todos={todo} />
+                        ))}
+                    </>
+                )}
             </div>
         </div>
     )
 }
 
-export default Search
+
+

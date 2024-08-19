@@ -2,22 +2,17 @@
 import { useOptimistic } from 'react'
 import { TodoCard } from './TodoCard'
 import { type TodoCardProps } from '~/lib/types'
-import { updateStatus } from "~/server/db/actions"
-import { deleteTodo, updateTodo } from "../../server/db/actions"
-
+import { deleteTodo } from "../../server/db/actions"
 
 type OptimisticAction =
-    | { type: 'update_status'; id: string; status: boolean }
     | { type: 'delete'; id: string };
 
-export function TodoList({ initialTodos }: { initialTodos: TodoCardProps[] }) {
-    const [optimisticTodos, addOptimisticTodo] = useOptimistic<TodoCardProps[], OptimisticAction>(initialTodos,
+export function TodoList({ todos }: { todos: TodoCardProps[] }) {
+
+    const [optimisticTodos, addOptimisticTodo] = useOptimistic<TodoCardProps[], OptimisticAction>(todos,
+
         (state, action): TodoCardProps[] => {
             switch (action.type) {
-                case 'update_status':
-                    return state.map(todo =>
-                        String(todo.id) === action.id ? { ...todo, status: action.status } : todo
-                    );
                 case 'delete':
                     return state.filter(todo => String(todo.id) !== action.id);
                 default:
@@ -26,12 +21,7 @@ export function TodoList({ initialTodos }: { initialTodos: TodoCardProps[] }) {
         }
     );
 
-    const handleUpdateStatus = async (id: string, currentStatus: boolean) => {
-        // Optimistically update the UI
-        addOptimisticTodo({ type: 'update_status', id, status: !currentStatus });
-        // Perform the actual update
-        await updateStatus(id, currentStatus)
-    }
+
 
     const handleDeleteTodo = async (id: string) => {
         // Optimistically update the UI
@@ -46,9 +36,9 @@ export function TodoList({ initialTodos }: { initialTodos: TodoCardProps[] }) {
                 <TodoCard
                     key={todo.id}
                     todos={todo}
-                    onUpdateStatus={handleUpdateStatus}
                     onDeleteTodo={handleDeleteTodo}
-                />)
+                />
+            )
             )}
 
         </>

@@ -10,36 +10,111 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "../ui/accordion"
-import TodoForm from "../common/TodoForm"
+import { UpdateTodo } from "./buttons"
 import { type SubTaskProps } from "../../lib/types"
+import { SubTaskForm, UpdateSubTaskForm } from "./TodoForm"
+import { useParams } from "next/navigation"
+import { updateSubTaskStatus } from "../../server/db/actions"
+import { toast } from "sonner"
+import clsx from 'clsx'
+interface ExtendedSubTaskProps extends SubTaskProps {
+    onclick?: () => void
+}
+
+function SUbTask({ title, description, status, onclick, createdAt, id }: ExtendedSubTaskProps) {
+    const [update, setUpdateTodo] = useState(false);
+    const [status1, setStatus] = useState(status);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+
+
+    const handleStatusChange = async () => {
+        setIsUpdating(true);
+        const newStatus = !status1;
+        setStatus(newStatus);
+        try {
+            await updateSubTaskStatus(String(id), newStatus);
+            toast.success("Task completed successfully");
+        }
+        catch (error) {
+            toast.error("Failed to update todo");
+            setStatus(!newStatus);
+        }
+        finally {
+            setIsUpdating(false);
+        }
+    }
+
+    return (
+        <>
+            {update ? <UpdateSubTaskForm onclick={() => setUpdateTodo(!update)} subTask={{ id, title, description, status, createdAt }} /> :
+                <div className="ml-6 relative  border-b-[1px] border-slate-200" key={title}>
+                    <div className="flex py-3 gap-2 items-center">
+                        <div className="flex gap-2 items-center">
+                            <Checkbox checked={status} onCheckedChange={handleStatusChange} disabled={isUpdating} />
+                            <h1 className={clsx("text-slate-600 font-medium mr-auto ", status ? "line-through" : "")}>{title}</h1>
+                        </div>
+
+                    </div>
+                    <p className="mb-2">{description}</p>
+                    <div className="absolute right-0 z-20 top-0  gap-2 peer-hover:flex ">
+                        <UpdateTodo onclick={onclick} />
+
+                        {/* <DeleteTodo onDeleteTodo={() => onDeleteTodo(String(todos?.id))} /> */}
+                    </div>
+
+                </div>
+
+
+            }
+        </>
+
+    )
+}
+export function SubTaskList({ subtasks }: { subtasks: SubTaskProps[] }) {
+    const [update, setUpdateTodo] = useState(false)
+    return (
+
+        <>
+            {subtasks?.map(task => (
+                <SUbTask key={task.id} {...task} onclick={() => setUpdateTodo(!update)} />
+
+            ))}
+        </>
+
+
+
+    )
+}
+
+
+
+
 export function SubTaskCard({ subTasks }: { subTasks: SubTaskProps[] }) {
     const [showCard, setShowCard] = useState(false)
-    const [checked, Setchecked] = useState(true)
+    const params = useParams()
+    const todoId = params.id
+
+
     // const [subTask, setSubTask] = useState(subTasks)
 
     return (
         <>
+
             {subTasks?.length > 0 ? (
                 <Accordion type="single" collapsible className="w-full  focus:outline-none focus:ring-0">
                     <AccordionItem value="item-1">
                         <AccordionTrigger className="border-b-[1px] border-slate-200  font-semibold">Sub Tasks({subTasks.length})</AccordionTrigger>
                         <AccordionContent >
-                            {subTasks.map((subTask) => (
-                                <div className="ml-6  border-b-[1px] border-slate-200" key={subTask.title}>
-                                    <div className="flex py-3 gap-2 items-center">
-                                        <div className="flex gap-2 items-center">
 
-                                            <Checkbox checked={checked} onClick={() => Setchecked(!checked)} />
-                                            <h1>{subTask.title}</h1>
-                                        </div>
 
-                                    </div>
-                                    <p className="mb-2">{subTask.description}</p>
-                                </div>
-
-                            ))}
+                            <SubTaskList subtasks={subTasks} />
                             <>
-                                {showCard ? (<TodoForm />
+                                {showCard ? (<SubTaskForm todoId={Number(todoId)}>
+                                    <Button variant="outline" onClick={() => setShowCard(!showCard)}>Cancel</Button>
+
+                                </SubTaskForm>
+
 
                                 ) : (<Button className="bg-transparent w-full text-bg-slate-700 hover:bg-transparent " onClick={() => setShowCard(!showCard)}>
                                     <Plus className="hover:fill-red-500 mr-2" fill="red-300" />
@@ -53,15 +128,17 @@ export function SubTaskCard({ subTasks }: { subTasks: SubTaskProps[] }) {
 
             )
                 : (<>
-                    {showCard ? (<TodoForm />
+                    {showCard ? (<SubTaskForm todoId={Number(todoId)} >
+                        <Button variant="outline" onClick={() => setShowCard(!showCard)}>Cancel</Button>
+                    </SubTaskForm>
 
                     ) : (<Button variant='outline' className=" bg-transparent w-32  text-bg-slate-700 hover:bg-blue-500 hover:border-b-[1px] hover:text-white" onClick={() => setShowCard(!showCard)}>
-                        <Plus className="hover:fill-red-500 mr-2" fill="red-300" />
                         Add sub-task
                     </Button>
                     )}
                 </>
                 )}
+
         </>
 
     )

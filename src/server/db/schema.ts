@@ -68,17 +68,3 @@ export const subTaskRelations = relations(subTasks, ({ one }) => ({
     references: [todos.id],
   }),
 }));
-
-// const todoSchema = z.object({
-//   title: z.string({message:"Title is rquired"}),
-//   status: z.boolean().default(false),
-//   description: z.string().nullable().optional(),
-// })
-
-// const  createTodoSchema
-
-// const updateTodoSchema = todoSchema.extend({
-//   id: z.number(),
-// })
-
-// export type updateTodoData = z.infer<typeof updateTodoSchema>
