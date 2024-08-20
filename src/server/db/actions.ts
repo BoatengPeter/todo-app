@@ -126,29 +126,6 @@ export async function updateSubTaskStatus(id:string,status:boolean){
     }
 }
 
-// export async function updateTodo(id:string,formdata:FormData){
-//     const idasNum = Number(id)
-//     const validatedFields = createTodoSchema.safeParse(Object.fromEntries(formdata))
-//     if(!validatedFields.success){
-//         return{
-//             errors:validatedFields.error.flatten().fieldErrors,
-//             message:"Missing field, failed to update todo"
-//         }
-//     }
-//     const fields = validatedFields.data
-//     try {
-//      await db.update(todos)
-//      .set(fields)
-//      .where(eq(todos.id,idasNum))
-     
-//      revalidatePath("/dashboard/inbox")
-//      revalidatePath("/dashboard/today")
-//      return {success:true, message:"Todo updated successfully"}
-//     } catch (error) {
-//         return { success:false, message:"Database error: Unable to update todo" }
-        
-//     }
-// }
 
 
 
@@ -191,42 +168,7 @@ export async function updateTodo(id: string, data: TodoUpdateData) {
     }
 }
 
-// export async function updateSubTask(id: string, data: SubTaskUpdateData) {
-//     const user = auth()
-//     if(!user.userId) throw new Error ("unauthorized");
-//     const idasNum = Number(id)
-//     try {
-//         const existingTodo = await db.query.subTasks.findFirst({
-//             where: and(
-//                 eq(subTasks.id, idasNum),
-//                 eq(subTasks.todoId, idasNum),
-//                 eq(subTasks.userId, user.userId)
-//             )
-//         })
-//         if(!existingTodo) return {success:false, message:"SubTask not found"}
-       
-//         const validatedData = subTaskSchema.omit({ id: true }).parse(data);
-       
-//          const updatedTodo = await db.update(subTasks).set({
-//                     title: validatedData.title,
-//                     status: validatedData.status,
-//                     description: validatedData.description,
-//             },
-//         ).where(and(eq(subTasks.id,idasNum),eq(subTasks.userId,user.userId))).returning()
-//         return { success: true, data: updatedTodo };
-//     } catch (error) {
-//         if (error instanceof z.ZodError) {
-//             console.error('Validation error:', error.errors);
-//             return { success: false, error: 'Invalid subTask data', details: error.errors };
-//         }
-//         console.error('Failed to update subTask:', error);
-//         return { success: false, error: 'Failed to update subTask' };
-//     }
-//     finally{
-//         revalidatePath('/dashboard/inbox');
-//         revalidatePath('/dashboard/today');
-//     }
-// }
+
 
 export async function deleteTodo(id:string){
     try{
