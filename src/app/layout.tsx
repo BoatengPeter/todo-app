@@ -7,9 +7,9 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   title: {
     template: " dashboard | %s Todos ",
-    default: "Todo App",
+    default: "Task Manager",
   },
-  description: "Todo App",
+  description: "Task Manager",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
