@@ -16,9 +16,7 @@ export default function HomePage() {
                 <div className="hidden lg:block relative">
                     <Image src="/images/Hero.png" alt="Hero image" width={700} height={700} loading="eager" />
                     {/* testimonial card */}
-                    <div className="absolute top-0 -translate-y-[50%]  right-0 translate-x-1/3  h-auto <
-                    w-2/3
-                     bg-white z-10 p-5 shadow-md rounded-lg ">
+                    <div className="absolute top-0 translate-y-[70%]  right-0 translate-x-1/3  h-auto w-2/3 bg-white z-10 p-5 shadow-md rounded-lg ">
                         <h3 className="text-baase font-semibold text-slate-700 mb-2">&quot; Its intuitive interface and seamless functionality have helped me stay organized and focused like never before. I can finally tackel my to-do list with confidence and clarity - it&apos;s a total productivity powerhouse!&quot;</h3>
                         <cite>~John Doe</cite>
 
