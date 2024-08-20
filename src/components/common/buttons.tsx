@@ -72,7 +72,7 @@ export function DeleteTodo({ onDeleteTodo }: { onDeleteTodo: () => Promise<void>
                     <h3 className="text-base font-medium text-slate-900 dark:text-white">Are you sure you want to delete this todo?</h3>
                     <div className="flex items-center justify-between">
 
-                        <Button variant="outline" onClick={() => setCancel(true)}>Cancel</Button>
+                        <Button variant="outline" onClick={() => setCancel(!cancel)}>Cancel</Button>
                         <Button onClick={handleDelete} className=" bg-red-500 text-white hover:bg-red-300 ">Delete</Button>
                     </div>
                 </DialogContent>

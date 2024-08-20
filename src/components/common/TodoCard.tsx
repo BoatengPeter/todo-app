@@ -1,7 +1,7 @@
 "use client"
 import { Checkbox } from "../../components/ui/checkbox"
 import clsx from "clsx"
-import { Calendar, Workflow, Check } from "lucide-react"
+import { Calendar, Workflow } from "lucide-react"
 import { TodoFormOnly } from "./TodoForm"
 import React from "react"
 import { useState } from "react"
@@ -84,7 +84,6 @@ export function ModalTodoCard({ todos }: { todos: TodoCardProps }) {
     const [update, setUpdateTodo] = useState(false);
     const [status, setStatus] = useState(todos?.status);
     const [isUpdating, setIsUpdating] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
 
 
 

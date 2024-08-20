@@ -1,5 +1,5 @@
 import { Menu } from 'lucide-react'
-import { SignInButton, SignedOut, SignedIn, UserButton, SignOutButton } from "@clerk/nextjs"
+import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs"
 import { Button } from "~/components/ui/button";
 
 const Header = () => {
