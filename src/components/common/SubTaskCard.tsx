@@ -96,7 +96,6 @@ export function SubTaskCard({ subTasks }: { subTasks: SubTaskProps[] }) {
     const todoId = params.id
 
 
-    // const [subTask, setSubTask] = useState(subTasks)
 
     return (
         <>
