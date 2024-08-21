@@ -66,13 +66,9 @@ function SUbTask({ title, description, status, createdAt, id, onDeleteTodo }: Ex
                         </div>
 
                     </div>
-
-
                 }
             </div>
-
         </>
-
     )
 }
 export function SubTaskList({ subtasks }: { subtasks: SubTaskProps[] }) {
@@ -100,12 +96,8 @@ export function SubTaskCard({ subTasks }: { subTasks: SubTaskProps[] }) {
     const [showCard, setShowCard] = useState(false)
     const params = useParams()
     const todoId = params.id
-
-
-
     return (
         <>
-
             {subTasks?.length > 0 ? (
                 <Accordion type="single" collapsible className="w-full  focus:outline-none focus:ring-0">
                     <AccordionItem value="item-1">
@@ -121,10 +113,11 @@ export function SubTaskCard({ subTasks }: { subTasks: SubTaskProps[] }) {
                                 </SubTaskForm>
 
 
-                                ) : (<Button className="bg-transparent w-full text-bg-slate-700 hover:bg-transparent " onClick={() => setShowCard(!showCard)}>
-                                    <Plus className="hover:fill-red-500 mr-2" fill="red-300" />
-                                    Add task
-                                </Button>
+                                ) : (
+                                    <Button className="bg-transparent w-full text-bg-slate-700 hover:bg-transparent  " onClick={() => setShowCard(!showCard)}>
+                                        <Plus className="hover:fill-red-500 mr-2" fill="red-300" />
+                                        Add task
+                                    </Button>
                                 )}
                             </>
                         </AccordionContent>
@@ -137,7 +130,7 @@ export function SubTaskCard({ subTasks }: { subTasks: SubTaskProps[] }) {
                         <Button variant="outline" onClick={() => setShowCard(!showCard)}>Cancel</Button>
                     </SubTaskForm>
 
-                    ) : (<Button variant='outline' className=" bg-transparent w-32  text-bg-slate-700 hover:bg-blue-500 hover:border-b-[1px] hover:text-white" onClick={() => setShowCard(!showCard)}>
+                    ) : (<Button variant='outline' className=" bg-transparent w-32  text-bg-slate-700 hover:bg-blue-500  mt-4 hover:text-white" onClick={() => setShowCard(!showCard)}>
                         Add sub-task
                     </Button>
                     )}

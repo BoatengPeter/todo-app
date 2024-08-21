@@ -40,7 +40,6 @@ export async function createTodo(data: CreateTodoData) {
     if(!user.userId) throw new Error ("unauthorized");
     try {
 
-        // Validate the input data
         const validatedData = createTodoSchema.safeParse(data);
         if(!validatedData.success){
             return { success: false, error: 'Invalid todo data', details: validatedData.error.flatten().fieldErrors };
@@ -98,6 +97,8 @@ export async function createSubTask(data: CreateSubTaskData) {
 }
 }
 
+
+// Update todo status
 export async function updateTodoStatus(id:string,status:boolean){
     try{
         const idasNum = Number(id)

@@ -31,8 +31,8 @@ export default async function page() {
                     </div>
                 </div>
                 <section className="w-[80%] h-full flex flex-col mx-auto  ">
-                    <TodoFormWithBtn />
                     <TodoList todos={todos} />
+                    <TodoFormWithBtn />
 
                 </section>
             </Suspense>

@@ -17,7 +17,7 @@ const TodoFormWithBtn = () => {
     const [showForm, setShowForm] = useState<boolean>(true)
     return (
         <>
-            {showForm ? <AddTodoBtn text="Add Todo" icon={<CirclePlus fill="#3b82f6" size={27} stroke="#fff" />} className="bg-transparent w-full text-slate-700 hover:bg-white border-b-[1px] border-slate-200 " onClick={() => setShowForm(!showForm)} /> : <TodoForm >
+            {showForm ? <AddTodoBtn text="Add Task" icon={<CirclePlus fill="#3b82f6" size={27} stroke="#fff" />} className="bg-transparent w-full text-slate-700 hover:bg-white border-b-[1px] border-slate-200 " onClick={() => setShowForm(!showForm)} /> : <TodoForm >
                 <Button variant="outline" onClick={() => setShowForm(!showForm)}>Cancel</Button>
             </TodoForm>}
 

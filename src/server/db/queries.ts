@@ -36,6 +36,8 @@ export async function fetchTodaysTodos(){
             lt(todos.createdAt, tomorrow)
           ),columns:{
             userId:false
+          },with:{
+            subTasks:true
           }
         }
       ) 
