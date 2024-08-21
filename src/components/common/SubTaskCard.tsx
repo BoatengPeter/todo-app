@@ -10,19 +10,20 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "../ui/accordion"
-import { UpdateTodo } from "./buttons"
+import { DeleteTodo, UpdateTodo } from "./buttons"
 import { type SubTaskProps } from "../../lib/types"
 import { SubTaskForm, UpdateSubTaskForm } from "./TodoForm"
 import { useParams } from "next/navigation"
-import { updateSubTaskStatus } from "../../server/db/actions"
+import { updateSubTaskStatus, deleteSubTask } from "../../server/db/actions"
 import { toast } from "sonner"
 import clsx from 'clsx'
+
 interface ExtendedSubTaskProps extends SubTaskProps {
-    onclick?: () => void
+    onDeleteTodo: (id: string) => Promise<void>
 }
 
-function SUbTask({ title, description, status, onclick, createdAt, id }: ExtendedSubTaskProps) {
-    const [update, setUpdateTodo] = useState(false);
+function SUbTask({ title, description, status, createdAt, id, onDeleteTodo }: ExtendedSubTaskProps) {
+    const [update, setUpdateSubTask] = useState(false);
     const [status1, setStatus] = useState(status);
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -47,37 +48,42 @@ function SUbTask({ title, description, status, onclick, createdAt, id }: Extende
 
     return (
         <>
-            {update ? <UpdateSubTaskForm onclick={() => setUpdateTodo(!update)} subTask={{ id, title, description, status, createdAt }} /> :
-                <div className="ml-6 relative  border-b-[1px] border-slate-200" key={title}>
-                    <div className="flex py-3 gap-2 items-center">
-                        <div className="flex gap-2 items-center">
-                            <Checkbox checked={status} onCheckedChange={handleStatusChange} disabled={isUpdating} />
-                            <h1 className={clsx("text-slate-600 font-medium mr-auto ", status ? "line-through" : "")}>{title}</h1>
+            <div className="ml-6 relative  border-b-[1px] border-slate-200" >
+                {update ? <UpdateSubTaskForm onclick={() => setUpdateSubTask(!update)} subTask={{ id, title, description, status, createdAt }} /> :
+                    <div key={id}>
+                        <div className="flex py-3 gap-2 items-center">
+                            <div className="flex gap-2 items-center">
+                                <Checkbox checked={status} onCheckedChange={handleStatusChange} disabled={isUpdating} />
+                                <h1 className={clsx("text-slate-600 font-medium mr-auto ", status ? "line-through" : "")}>{title}</h1>
+                            </div>
+
+                        </div>
+                        <p className="mb-2">{description}</p>
+                        <div className="absolute right-0 z-20 top-0 gap-2 peer-hover:flex ">
+                            <UpdateTodo onclick={() => setUpdateSubTask(!update)} />
+
+                            <DeleteTodo onDeleteTodo={() => onDeleteTodo(String(id))} />
                         </div>
 
                     </div>
-                    <p className="mb-2">{description}</p>
-                    <div className="absolute right-0 z-20 top-0  gap-2 peer-hover:flex ">
-                        <UpdateTodo onclick={onclick} />
-
-                        {/* <DeleteTodo onDeleteTodo={() => onDeleteTodo(String(todos?.id))} /> */}
-                    </div>
-
-                </div>
 
 
-            }
+                }
+            </div>
+
         </>
 
     )
 }
 export function SubTaskList({ subtasks }: { subtasks: SubTaskProps[] }) {
-    const [update, setUpdateTodo] = useState(false)
+    const handleDeleteSubTask = async (id: string) => {
+        await deleteSubTask(id)
+    }
     return (
 
         <>
             {subtasks?.map(task => (
-                <SUbTask key={task.id} {...task} onclick={() => setUpdateTodo(!update)} />
+                <SUbTask key={task.id} {...task} onDeleteTodo={handleDeleteSubTask} />
 
             ))}
         </>

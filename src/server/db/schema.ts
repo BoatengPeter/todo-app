@@ -5,9 +5,11 @@ import {
   serial,
   timestamp,
   text,
+  // PgEnum,
   boolean,
   integer,
   varchar,
+  
 } from "drizzle-orm/pg-core";
 
 
@@ -44,6 +46,7 @@ export const subTasks = createTable(
     title: text("title").notNull(),
     description: text("description"),
     status: boolean("status").default(false).notNull(),
+    // priority:pgEnum("priority",['black','red','orange','blue','green']).default('black').notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -68,3 +71,5 @@ export const subTaskRelations = relations(subTasks, ({ one }) => ({
     references: [todos.id],
   }),
 }));
+
+

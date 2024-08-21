@@ -12,6 +12,15 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { updateTodoStatus, updateSubTaskStatus } from "../../server/db/actions"
 import { toast } from "sonner"
+// import {
+//     DropdownMenu,
+//     DropdownMenuContent,
+//     DropdownMenuGroup,
+//     DropdownMenuItem,
+//     DropdownMenuLabel,
+//     DropdownMenuTrigger,
+// } from "../ui/dropdown-menu"
+
 
 
 
@@ -21,6 +30,11 @@ export function TodoCard({ todos, onDeleteTodo }: { todos: TodoCardProps, onDele
     const [update, setUpdateTodo] = useState(false);
     const [status, setStatus] = useState(todos?.status);
     const [isUpdating, setIsUpdating] = useState(false);
+    // const [priority, setPriority] = useState('black');
+
+    // const handleFlagClick = (color: string) => {
+    //     setPriority(color);
+    // }
 
 
 
@@ -68,8 +82,27 @@ export function TodoCard({ todos, onDeleteTodo }: { todos: TodoCardProps, onDele
                             </Link>
                         </div>
 
-                        <div className="hover:flex absolute right-0  top-0 hidden gap-2 peer-hover:flex ">
+                        <div className="hover:flex absolute right-0  top-0 hidden gap-2 peer-hover:flex  ">
+
                             <UpdateTodo onclick={() => setUpdateTodo(!update)} />
+                            {/* <DropdownMenu >
+                                <DropdownMenuTrigger asChild>
+                                    <button>
+                                        <Ellipsis size={20} /></button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent  >
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuLabel>Set Priority</DropdownMenuLabel>
+                                        <div className="flex gap-1">
+                                            <DropdownMenuItem><button><Flag size={15} color="red" /></button></DropdownMenuItem>
+                                            <DropdownMenuItem><button><Flag size={15} color="orange" /></button></DropdownMenuItem>
+                                            <DropdownMenuItem><button><Flag size={15} color="blue" /></button></DropdownMenuItem>
+                                            <DropdownMenuItem><button><Flag size={15} /></button></DropdownMenuItem>
+                                        </div>
+                                    </DropdownMenuGroup>
+
+                                </DropdownMenuContent>
+                            </DropdownMenu> */}
                             <DeleteTodo onDeleteTodo={() => onDeleteTodo(String(todos?.id))} />
                         </div>
                     </>

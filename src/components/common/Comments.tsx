@@ -14,7 +14,7 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 const Comments = () => {
     return (
-        <div>
+        <>
             <Dialog >
                 <DialogTrigger asChild>
                     <Button className="bg-transparent text-black font-normal hover:bg-transparent text-lg hover:border-none">
@@ -38,7 +38,7 @@ const Comments = () => {
                             </Label>
                             <Input
                                 id="name"
-                                defaultValue="Pedro Duarte"
+                                defaultValue="John Doe"
                                 className="col-span-3"
                             />
                         </div>
@@ -58,7 +58,7 @@ const Comments = () => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </div>
+        </>
     )
 }
 

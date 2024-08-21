@@ -42,8 +42,6 @@ const SortItems = ({ data }: { data: TodoCardProps[] }) => {
         });
         setTodos(sorted);
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        //come a delete this
-        console.log('Sorted by date', sortOrder);
     };
 
 

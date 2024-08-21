@@ -1,5 +1,4 @@
-import { Menu } from 'lucide-react'
-import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs"
+import { SignInButton, SignedOut } from "@clerk/nextjs"
 import { Button } from "~/components/ui/button";
 
 
@@ -10,12 +9,10 @@ const Header = ({ children }: { children?: React.ReactNode }) => {
 
 
             <div className=" flex flex-row gap-2 md:gap-4">
-                <SignedIn>
-                    <UserButton />
-                </SignedIn>
+
                 <SignedOut>
                     <SignInButton >
-                        <Button aria-describedby="signUp" className="   bg-blue-500 text-base hover:bg-blue-400">Sign In</Button>
+                        <Button size='sm' aria-describedby="signUp" className="   bg-blue-500 text-base hover:bg-blue-400">Sign In</Button>
                     </SignInButton>
                 </SignedOut>
                 {children}

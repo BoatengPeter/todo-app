@@ -4,10 +4,10 @@ import { SignUpButton } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
 export default function HomePage() {
     return (
-        <main className="w-[80%] mx-auto h-screen ">
+        <main className="w-[90%] md:w-[80%] mx-auto h-screen ">
             <Header >
                 <SignUpButton >
-                    <Button aria-describedby="signUp" variant="outline" className="  text-base hover:scale-90">Sign Up</Button>
+                    <Button size="sm" aria-describedby="signUp" variant="outline" className="  text-base hover:scale-90 ">Sign Up</Button>
                 </SignUpButton>
             </Header>
             <div className="flex flex-col md:flex-row gap-2 w-full items-center ">

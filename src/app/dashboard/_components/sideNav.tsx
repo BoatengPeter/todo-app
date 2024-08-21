@@ -52,7 +52,7 @@ const SideNav = () => {
                                 </AddTodoBtn>
                             </div>
                         </PopoverTrigger>
-                        <PopoverContent className="p-0 w-[450px] min-w-[375px] " sideOffset={10} >
+                        <PopoverContent className=" md:translate-x-[70%] md:translate-y-[-30%] p-0 w-[450px]  min-w-[335px] max-w-[460px] " sideOffset={10} >
                             <TodoForm className="m-0"  >
 
                                 <Button variant="outline" >Cancel</Button>

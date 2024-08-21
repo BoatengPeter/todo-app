@@ -37,7 +37,7 @@ const PageHeader = () => {
                         <SheetOverlay className="bg-transparent" />
                         <SheetTrigger asChild >
 
-                            <button ><Menu /></button>
+                            <button className="mr-2" ><Menu /></button>
                         </SheetTrigger>
                         <SheetContent className="p-0 w-[320px] min-w-[200px]" >
                             <SmallNav >
