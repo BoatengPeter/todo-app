@@ -71,7 +71,6 @@ export async function createSubTask(data: CreateSubTaskData) {
     const user = auth()
     if(!user.userId) throw new Error ("unauthorized");
     try {
-        // Validate the input data
         const validatedData = createSubTaskSchema.safeParse(data);
         if(!validatedData.success){
             return { success: false, error: 'Invalid todo data', details: validatedData.error.flatten().fieldErrors };
@@ -112,11 +111,13 @@ export async function updateTodoStatus(id:string,status:boolean){
         revalidatePath('/dashboard/today');
     }
 }
+
+// Update subTask status
 export async function updateSubTaskStatus(id:string,status:boolean){
     try{
         const idasNum = Number(id)
         await db.update(subTasks).set({status}).where(eq(subTasks.id,idasNum))
-        await db.delete(subTasks).where(eq(subTasks.id,idasNum))
+        // await db.delete(subTasks).where(eq(subTasks.id,idasNum))
         return {success:true, message:"SubTask updated successfully"}
     }catch(error){
         return {success:false, message:"Database error: Unable to update subTask"}
@@ -176,7 +177,6 @@ export async function deleteTodo(id:string){
         if(!user.userId) throw new Error ("unauthorized");
         const idasNum = Number(id)
         await db.delete(todos).where(and(eq(todos.id,idasNum),eq(todos.userId,user.userId))  )
-        console.log("deleted")
         return {success:true, message:"Todo deleted successfully"}
     
         
@@ -189,4 +189,24 @@ export async function deleteTodo(id:string){
     }
     
 }
+
+//delete subTask
+export async function deleteSubTask(id:string){
+    try{
+        const user = auth()
+        if(!user.userId) throw new Error ("unauthorized");
+        const idasNum = Number(id)
+        await db.delete(subTasks).where(eq(subTasks.id,idasNum));
+        return {success:true, message:"SubTask deleted successfully"}
+    
+        
+    }
+    catch(error){
+        return {success:false, message:"Database error: Unable to delete subTask"}
+    }finally{
+        revalidatePath("/dashboard/inbox")
+        revalidatePath("/dashboard/today")  
+    }
+    
+}   
 
