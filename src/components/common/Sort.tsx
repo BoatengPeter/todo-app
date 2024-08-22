@@ -29,7 +29,6 @@ const SortItems = ({ data }: { data: TodoCardProps[] }) => {
         });
         setTodos(sorted);
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        console.log('Sorted by title', sortOrder);
     };
 
     const sortByDate = () => {
