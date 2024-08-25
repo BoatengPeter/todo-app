@@ -1,12 +1,14 @@
 import { db } from "~/server/db"
 import {auth} from "@clerk/nextjs/server"
 import {  and, gte, lt, like } from 'drizzle-orm';
+import 'server-only';
 import { todos } from "./schema"
 export async function getAllTodos() {
   try {
     const user =auth();
     if(!user.userId) throw new  Error("unathorized");
     const todos = await db.query.todos.findMany({
+      where:(model,{eq})=>eq(model.userId,user.userId),
       with:{
         subTasks:true
       },columns:{

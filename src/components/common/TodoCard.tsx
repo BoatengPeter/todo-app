@@ -66,7 +66,7 @@ export function TodoCard({ todos, onDeleteTodo }: { todos: TodoCardProps, onDele
                                 <div className="flex   gap-2 items-center ">
 
 
-                                    <Checkbox className="rounded-full h-[1.28rem] w-[1.28rem]" checked={todos?.status}
+                                    <Checkbox className="rounded-full h-[1.28rem] w-[1.28rem]" checked={todos?.status} onChange={() => setStatus(!status)}
                                         onCheckedChange={handleStatusChange} disabled={isUpdating} />
                                     <h1 className={clsx("text-slate-600 font-medium mr-auto ", status ? "line-through" : "")}>{todos?.title}</h1>
                                 </div>
