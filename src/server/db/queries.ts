@@ -1,6 +1,6 @@
 import { db } from "~/server/db"
 import {auth} from "@clerk/nextjs/server"
-import {  and, gte, lt, like } from 'drizzle-orm';
+import {  and, gte, lt, like, eq } from 'drizzle-orm';
 import 'server-only';
 import { todos } from "./schema"
 export async function getAllTodos() {
@@ -35,7 +35,9 @@ export async function fetchTodaysTodos(){
         const todaysTodos = await db.query.todos.findMany({
           where: and(
             gte(todos.createdAt, today),
-            lt(todos.createdAt, tomorrow)
+            lt(todos.createdAt, tomorrow),
+            eq(todos.userId,user.userId)
+
           ),columns:{
             userId:false
           },with:{
@@ -64,12 +66,12 @@ export async function fetchTodoById(id: number) {
         }
       }
     })
-    if(!todo) throw new Error("Todo not found")
+    if(!todo) throw new Error("Task not found")
       if(todo.userId !== user.userId) throw new Error("Unauthorized")
     return todo
   } catch (error) {
     console.log("Database error", error)
-    throw new Error("Failed to fetch todo")
+    throw new Error("Failed to fetch task")
   }
 }
 
