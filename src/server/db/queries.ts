@@ -8,7 +8,7 @@ export async function getAllTodos() {
     const user =auth();
     if(!user.userId) throw new  Error("unathorized");
     const todos = await db.query.todos.findMany({
-      where:(model,{eq})=>eq(model.userId,user.userId),
+      where:(todos,{eq})=>eq(todos.userId,user.userId),
       with:{
         subTasks:true
       },columns:{

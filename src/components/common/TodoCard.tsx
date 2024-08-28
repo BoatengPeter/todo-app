@@ -57,32 +57,31 @@ export function TodoCard({ todos, onDeleteTodo }: { todos: TodoCardProps, onDele
 
     return (
         <>
-            <div className="relative flex justify-between items-center  border-b-[1px]  border-slate-200 py-2  ">
+            <div className="w-full relative flex justify-between items-center  border-b-[1px]  border-slate-200 py-2  ">
                 {update ? <TodoFormOnly onclick={() => setUpdateTodo(!update)} todo={todos} /> :
                     <>
-                        <div className="flex-1 peer ">
-                            <Link href={`${pathname}/${todos?.id}`}>
+                        <div className="flex w-[90%] peer ">
+                            <div className=" flex  gap-2">
 
-                                <div className="flex   gap-2 items-center ">
+                                <Checkbox className="rounded-full h-[1.28rem] w-[1.25rem]" checked={todos?.status} onChange={() => setStatus(!status)}
+                                    onCheckedChange={handleStatusChange} disabled={isUpdating} />
+                                <Link href={`${pathname}/${todos?.id}`}>
 
-
-                                    <Checkbox className="rounded-full h-[1.28rem] w-[1.28rem]" checked={todos?.status} onChange={() => setStatus(!status)}
-                                        onCheckedChange={handleStatusChange} disabled={isUpdating} />
                                     <h1 className={clsx("text-slate-600 font-medium mr-auto ", status ? "line-through" : "")}>{todos?.title}</h1>
-                                </div>
-                                <div className="ml-6">
 
-                                    <p className="text-slate-700 text-sm font-thin ">{todos?.description}</p>
-                                    <div className="flex items-center gap-2">
+                                    <p className=" text-slate-700 text-sm font-thin   overflow-hidden  ">{todos?.description}</p>
+                                    <div className="flex items-center gap-2 ">
                                         <Calendar size={15} />
                                         <small>{formatDateToLocal(String(todos?.createdAt))}</small>
                                     </div>
-                                </div>
-                                {(todos?.subTasks?.length ?? 1) ? <div className="flex items-center gap-2"><Workflow size={15} className="hover:bg-slate-200" /><small>0/({todos?.subTasks?.length})</small></div> : null}
-                            </Link>
+                                    {(todos?.subTasks?.length ?? 1) ? <div className="flex items-center gap-2"><Workflow size={15} className="hover:bg-slate-200" /><small>0/({todos?.subTasks?.length})</small></div> : null}
+
+                                </Link>
+
+                            </div>
                         </div>
 
-                        <div className="hover:flex absolute right-0  top-0 hidden gap-2 peer-hover:flex  ">
+                        <div className="w-[10%] hover:flex absolute right-0  top-0 hidden gap-2 peer-hover:flex  ">
 
                             <UpdateTodo onclick={() => setUpdateTodo(!update)} />
                             {/* <DropdownMenu >
